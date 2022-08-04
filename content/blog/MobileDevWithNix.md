@@ -27,3 +27,25 @@ For NixOS you can simply do
 ```
 
 And `/etc/udev/rules.d/51-android.rules` should be created.
+
+## Gradle
+
+Our example application (StreetComplete) uses gradlew, a gradle wrapper which facilitates the usage of gradle.
+
+`shell.nix`
+
+```nix
+{ pkgs ? import <nixpkgs> {config.android_sdk.accept_license = true;} }:
+
+let
+  androidSdk = pkgs.androidenv.androidPkgs_9_0.androidsdk;
+in
+pkgs.mkShell {
+  buildInputs = with pkgs; [
+    androidSdk
+    glibc
+  ];
+  # override the aapt2 that gradle uses with the nix-shipped version
+  GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdk}/libexec/android-sdk/build-tools/28.0.3/aapt2";
+}
+```
