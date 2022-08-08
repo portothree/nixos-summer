@@ -69,7 +69,7 @@ Later we are going to use a build tool called Gradle that relies on android SDK 
       };
       androidSdk = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
         cmdline-tools-latest
-        build-tools-32-0-0
+        build-tools-30-0-3
         platform-tools
         platforms-android-31
         emulator
